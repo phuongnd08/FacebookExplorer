@@ -1,0 +1,10 @@
+lib_managed/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+target/
+project/boot
+.scala_dependencies
+src_managed/
