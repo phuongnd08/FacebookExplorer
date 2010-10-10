@@ -19,8 +19,7 @@ class ProfileSpec extends Spec with MustMatchers with BeforeAndAfterAll{
   override def beforeAll{
     val ddl = new DDLUnit(Profile)
     ddl.create
-    println(ddl.messages(0).sql)
-    println(ddl.messages(0).body)
+    println(ddl.messages(0))
   }
 
   override def afterAll{
@@ -41,7 +40,7 @@ class ProfileSpec extends Spec with MustMatchers with BeforeAndAfterAll{
       p1.save()
       p2.save()
 
-      val pr = Profile as "pr"
+      val pr = Profile AS "pr"
       val list = (SELECT (pr.*) FROM pr).list()
       list must have length (2)
 

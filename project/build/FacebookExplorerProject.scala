@@ -7,25 +7,6 @@ class AutoPostProject(info: ProjectInfo) extends ProguardProject(info) with Idea
   val mavenRepo = "Maven Repo" at "http://repo2.maven.org/maven2"
   val azeckoskiRepo = "Azeckoski Repo" at "https://source.sakaiproject.org/maven2"
 
-  lazy val copyTools = task {
-    def copySelenium(target: Path) = FileUtilities.copyFile(info.projectPath / "tools" / "selenium-server-standalone-2.0a5.jar", target / "selenium-server.jar", log)
-    copySelenium(info.projectPath / "target" / "scala_2.8.0" / "classes" / "tools")
-    copySelenium(info.projectPath / "target" / "scala_2.8.0" / "tools")
-  }
-  lazy val copyTestSample = task {
-    def copyTestSections(target: Path) = FileUtilities.sync(info.projectPath / "test-sections", target, log)
-    copyTestSections(info.projectPath / "target" / "scala_2.8.0" / "classes" / "sections")
-    copyTestSections(info.projectPath / "target" / "scala_2.8.0" / "sections")
-  }
-
-  lazy val copyRealSample = task {
-    def copyRealSections(target: Path) = FileUtilities.sync(info.projectPath / "real-sections", target, log)
-    copyRealSections(info.projectPath / "target" / "scala_2.8.0" / "classes" / "sections")
-    copyRealSections(info.projectPath / "target" / "scala_2.8.0" / "sections")
-  }
-
-  override def testAction = super.testAction dependsOn (copyTools, copyTestSample)
-
   val specs = "org.scalatest" % "scalatest" % "1.2" % "test"
   var snakeYaml = "org.yaml" % "snakeyaml" % "1.7"
   var jodaTime = "joda-time" % "joda-time" % "1.6.1"

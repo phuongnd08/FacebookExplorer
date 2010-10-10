@@ -1,7 +1,6 @@
 package alpha.facebook.explorer
 
 import ru.circumflex.orm._
-import alpha.facebook.explorer.Profile
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,9 +11,12 @@ import alpha.facebook.explorer.Profile
  */
 
 class Profile extends Record[Profile]{
+  //val id = "id".BIGINT
   val url = "url".VARCHAR(256).NOT_NULL.UNIQUE
   val name = "name".VARCHAR(256).NOT_NULL
   val birthDay = "birth_day".DATE
+  //def PRIMARY_KEY = id
+  //def relation = Profile
 }
 
 object Profile extends Table[Profile]{
