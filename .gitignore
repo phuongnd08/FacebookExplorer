@@ -8,3 +8,5 @@ target/
 project/boot
 .scala_dependencies
 src_managed/
+*.zip
+fe.properties
