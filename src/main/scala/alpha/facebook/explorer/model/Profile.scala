@@ -1,4 +1,4 @@
-package alpha.facebook.explorer
+package alpha.facebook.explorer.model
 
 import ru.circumflex.orm._
 
@@ -13,7 +13,9 @@ import ru.circumflex.orm._
 class Profile extends Record[Profile]{
   //val id = "id".BIGINT
   val url = "url".VARCHAR(256).NOT_NULL.UNIQUE
-  val name = "name".VARCHAR(256).NOT_NULL
+  val nickName = "nick_name".VARCHAR(100)
+  val facebookId = "facebook_id".VARCHAR(20)
+  val displayName = "display_name".VARCHAR(256).NOT_NULL
   val birthDay = "birth_day".DATE
   //def PRIMARY_KEY = id
   //def relation = Profile

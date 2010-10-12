@@ -1,4 +1,4 @@
-package alpha.facebook.explorer
+package alpha.facebook.explorer.model
 
 import org.scalatest.matchers.MustMatchers
 import ru.circumflex.orm._
@@ -30,17 +30,17 @@ class ProfileSpec extends Spec with MustMatchers with BeforeAndAfterAll{
     it("must list all created profiles"){
       val p1 = new Profile
       p1.url := "http://www.facebook.com/profile.php?id=1"
-      p1.name := "First User"
-      p1.birthDay := new Date(2010, 10, 9)
+      p1.displayName := "First User"
+      p1.birthDay := new Date("2010/10/9")
       val p2 = new Profile
       p2.url := "http://www.facebook.com/profile.php?id=2"
-      p2.name := "Second User"
-      p2.birthDay := new Date(2010, 10, 9)
+      p2.displayName := "Second User"
+      p2.birthDay := new Date("2010/10/9")
 
       p1.save()
       p2.save()
 
-      val pr = Profile AS "pr"
+      val pr = Profile as "pr"
       val list = (SELECT (pr.*) FROM pr).list()
       list must have length (2)
 

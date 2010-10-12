@@ -14,28 +14,33 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
  * To change this template use File | Settings | File Templates.
  */
 
-class MinerSpec extends Spec with MustMatchers with BeforeAndAfterEach {
+class MinerWithFirefoxSpec extends Spec with MustMatchers with BeforeAndAfterEach {
   var driver: WebDriver = _
   var miner: Miner = _
 
+  override def beforeEach {
+    driver = new FirefoxDriver
+    miner = new Miner(driver)
+  }
+
   describe("login using firefox") {
     it("should show owner name") {
-      driver = new FirefoxDriver
-      miner = new Miner(driver)
       miner.login
       driver.findElement(By.className("fbxWelcomeBoxName")).getText must be("Cold Alpha")
     }
   }
 
-  describe("login using htmlunit") {
-    it("should show owner name") {
-      var hud = new HtmlUnitDriver
-      hud.setJavascriptEnabled(true)
-      driver = hud
-
-      miner = new Miner(driver)
+  describe("get facebook id from nickName using firefox") {
+    it("should report correct facebook id") {
       miner.login
-      driver.findElement(By.className("fbxWelcomeBoxName")).getText must be("Cold Alpha")
+      miner.getFacebookIdByNickName("hotanhung") must be("1408525100")
+    }
+  }
+
+  describe("get friend profiles using firefox") {
+    it("should report all friends profiles") {
+      miner.login
+      miner.getFriendProfiles("1408525100") must be(List("xxx"))
     }
   }
 
