@@ -15,16 +15,13 @@ import collection.JavaConversions._
 object Miner {
   val IdMatcher = new util.matching.Regex("id=(\\d{6,})")
 }
+
 class Miner(val driver: WebDriver) {
   def login {
     driver.get("http://facebook.com")
     driver.findElement(By.id("email")).sendKeys(fe("fe.email"))
     driver.findElement(By.id("pass")).sendKeys(fe("fe.password"))
     driver.findElement(By.id("pass")).submit
-  }
-
-  def openOwnerProfile {
-    driver.get(driver.findElement(By.id("pageNav")).findElement(By.linkText("Profile")).getAttribute("href"))
   }
 
   def getFacebookIdByNickName(nickName: String): String = {
