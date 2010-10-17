@@ -9,8 +9,5 @@ package alpha.facebook.explorer
  */
 
 abstract class Signal
+case class ReadySignal extends Signal
 case class StopSignal extends Signal
-case class FoundFriendsSignal(profiles:List[String]) extends Signal
-case class ProfileSignal(facebookId:String) extends Signal
-case class NicknameSignal(nickName:String) extends Signal
-case class NicknameToFacebookIdSignal(nickName:String, facebookId:String) extends Signal

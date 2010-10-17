@@ -10,17 +10,31 @@ import ru.circumflex.orm._
  * To change this template use File | Settings | File Templates.
  */
 
-class Profile extends Record[Profile]{
+class Profile extends Record[Profile] {
   //val id = "id".BIGINT
-  val url = "url".VARCHAR(256).NOT_NULL.UNIQUE
-  val nickName = "nick_name".VARCHAR(100)
-  val facebookId = "facebook_id".VARCHAR(20)
+  val nickName = "nick_name".VARCHAR(100).NULLABLE
+  val facebookId = "facebook_id".VARCHAR(20).UNIQUE
   val displayName = "display_name".VARCHAR(256).NOT_NULL
   val birthDay = "birth_day".DATE
+  val depth = "depth".INTEGER.DEFAULT("0").NOT_NULL
+  val visited = "visited".BOOLEAN.DEFAULT("false").NOT_NULL
   //def PRIMARY_KEY = id
   //def relation = Profile
+  def this(facebookId: String) = {
+    this ()
+    this.facebookId := facebookId
+  }
+
+  def this(facebookId: String, displayName: String, depth: Int) = {
+    this (facebookId)
+    this.displayName := displayName
+    this.depth := depth
+  }
+
+  override def toString = {
+    displayName() + "(id=" + facebookId() + ", nickName=" + nickName() + ", depth=" + depth() + ")"
+  }
 }
 
-object Profile extends Table[Profile]{
-  
+object Profile extends Table[Profile] {
 }

@@ -1,7 +1,9 @@
 package alpha.facebook.explorer
 
 import org.scalatest.matchers.MustMatchers
+import org.openqa.selenium.firefox.FirefoxDriver
 import org.scalatest.{BeforeAndAfterEach, Spec}
+import org.openqa.selenium.By
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,30 +13,25 @@ import org.scalatest.{BeforeAndAfterEach, Spec}
  * To change this template use File | Settings | File Templates.
  */
 
-class QueueActorSpec extends Spec with MustMatchers with BeforeAndAfterEach {
-  var queueActor: QueueActor = _
-
-  override def beforeEach {
-    queueActor = new QueueActor(null, null)
-    queueActor.start
+class QueueActorObjectSpec extends Spec with MustMatchers with BeforeAndAfterEach {
+  describe("isFacebookIdForm") {
+    it("must return true if url is in facebookId form") {
+      QueueActor.isFacebookIdForm("http://www.facebook.com/profile.php?id=123456") must be(true)
+    }
+    it("must return false if url is not in facebookId form") {
+      QueueActor.isFacebookIdForm("http://www.facebook.com/cold.alpha") must be(false)
+    }
   }
-
-  describe("receive found friends") {
-    it("must create new tasks") {
-      queueActor ! FoundFriendsSignal(List("profile1", "profile2", "profilex"))
-      //Thread.sleep(100)
+  describe("getFacebookId") {
+    it("must return the correct facebook Id") {
+      QueueActor.getFacebookId("http://www.facebook.com/profile.php?id=123456") must be("123456")
     }
   }
 
-  describe("receive nickname to facebook id signal") {
-    it("must process shit accordingly") {
-      queueActor ! NicknameToFacebookIdSignal("abc", "123567")
-      //Thread.sleep(100)
+  describe("getFacebookNickName") {
+    it("must return the correct facebook nick name") {
+      QueueActor.getFacebookNickName("http://www.facebook.com/cold.alpha") must be("cold.alpha")
     }
   }
 
-
-  override def afterEach {
-    queueActor ! StopSignal()
-  }
 }
