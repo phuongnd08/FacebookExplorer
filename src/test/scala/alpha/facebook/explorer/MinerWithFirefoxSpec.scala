@@ -33,14 +33,8 @@ class MinerWithFirefoxSpec extends Spec with MustMatchers with BeforeAndAfterEac
   describe("get facebook id from nickName using firefox") {
     it("should report correct facebook id") {
       miner.login
+	Thread.sleep(10000)	
       miner.getFacebookIdByNickName("hotanhung") must be("1408525100")
-    }
-  }
-
-  describe("get friend profiles using firefox") {
-    it("should report all friends profiles") {
-      miner.login
-      miner.getFriendProfiles("1408525100") must be(List("xxx"))
     }
   }
 

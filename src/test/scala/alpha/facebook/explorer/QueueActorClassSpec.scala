@@ -57,7 +57,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
 
       queueActor ! ProfilesResult(null, List(("http://facebook.com?id=123456", "First User"), ("http://facebook.com/hotanhung", "Hung Reo"), ("http://facebook.com?id=234567", "Second User"), ("http://facebook.com?id=123456", "First User")))
       actor.start
-      Thread.sleep(20)
+      Thread.sleep(100)
       actor ! StopSignal()
 
       //must generate proper jobs
@@ -91,7 +91,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
         }
       }
       actor.start
-      Thread.sleep(10)
+      Thread.sleep(100)
       actor ! StopSignal()
       actor.jobs must be(List(MiningJob("1234567")))
     }

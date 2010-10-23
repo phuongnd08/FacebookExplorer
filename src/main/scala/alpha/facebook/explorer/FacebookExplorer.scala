@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver
 
 object FacebookExplorer extends HashMap[String, String] {
   import java.util.{ResourceBundle, Locale}
-  // The configuration object is initialized by reading `cx.properties`.
+  // The configuration object is initialized by reading `fe.properties`.
   try {
     val bundle = ResourceBundle.getBundle(
       "fe", Locale.getDefault, Thread.currentThread.getContextClassLoader)

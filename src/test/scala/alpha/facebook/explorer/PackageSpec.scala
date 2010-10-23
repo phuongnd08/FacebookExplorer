@@ -23,7 +23,7 @@ class PackageSpec extends Spec with MustMatchers {
     }
 
     it("return the value of desired browser") {
-      fe("fe.browser") must be("Firefox")
+      fe("fe.browser") must be("firefox")
     }
 
     it("return firefox driver according to fe.browser value") {
