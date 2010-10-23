@@ -31,7 +31,7 @@ class FirefoxDriverSpec extends Spec with MustMatchers with BeforeAndAfterEach {
       query sendKeys "cheese"
       query.submit
       var wait = 0
-      while (driver.getTitle != "cheese - Google Search" && wait <500){
+      while (driver.getTitle != "cheese - Google Search" && wait <1000){
         Thread.sleep(100)
         wait += 100
       }

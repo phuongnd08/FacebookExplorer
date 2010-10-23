@@ -1,8 +1,8 @@
 package alpha.facebook.explorer
 
-import model.Profile
 import org.openqa.selenium.{By, WebDriver, Keys}
 import collection.JavaConversions._
+import org.openqa.selenium.firefox.FirefoxWebElement
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +21,7 @@ class Miner(val driver: WebDriver) {
     driver.get("http://facebook.com")
     driver.findElement(By.id("email")).sendKeys(fe("fe.email"))
     driver.findElement(By.id("pass")).sendKeys(fe("fe.password"))
-Thread.sleep(1000)
+    Thread.sleep(1000)
     driver.findElement(By.id("email")).submit
   }
 
@@ -38,7 +38,7 @@ Thread.sleep(1000)
     driver.findElement(By.xpath("//div[h5='Friends']")).findElement(By.linkText("See All")).click
     def getFriendsDialog = {
       val nodes = driver.findElements(By.id("pb_" + facebookId + "_object_browser_content_area"))
-      println("getFriendsDialog => "+nodes)
+      println("getFriendsDialog => " + nodes)
       if (nodes.length > 0) nodes(0)
       else null
     }
@@ -51,23 +51,23 @@ Thread.sleep(1000)
         Thread.sleep(100)
       } while (orgContent != friendsDialog.getText)
     }
-    def getNextButton = driver.findElement(By.id("pb_"+facebookId+"_object_browser_pager_more"))
-    def canGoNext = getNextButton != null
+    def getNextButton = driver.findElement(By.id("pb_" + facebookId + "_object_browser_pager_more"))
+    def canGoNext = (getNextButton != null) && (getNextButton.asInstanceOf[FirefoxWebElement].isDisplayed)
     def goNext = getNextButton.click
     var continue = true
     while (continue) {
-	var links = friendsDialog.findElements(By.xpath(".//a"))
-	while (links.length == 0) {
-		println("getLinks => "+links)
-		Thread.sleep(100)
-		links = friendsDialog.findElements(By.xpath(".//a"))
-	}
-	for (time <- 0 until 20){
-	links(0).sendKeys(Keys.PAGE_DOWN)
+      var links = friendsDialog.findElements(By.xpath(".//a"))
+      while (links.length == 0) {
+        println("getLinks => " + links)
         Thread.sleep(100)
-}
+        links = friendsDialog.findElements(By.xpath(".//a"))
+      }
+      for (time <- 0 until 20) {
+        links(0).sendKeys(Keys.PAGE_DOWN)
+        Thread.sleep(100)
+      }
       friendsDialog.findElements(By.className("UIObjectListing_Title")).foreach(e => {result = e.getAttribute("href") :: result; println(e.getAttribute("href"))})
-	println("Found "+result.length+" friends")
+      println("Found " + result.length + " friends")
       if (canGoNext) {
         println(getNextButton)
         goNext
