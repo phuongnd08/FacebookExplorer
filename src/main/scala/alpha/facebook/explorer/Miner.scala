@@ -64,7 +64,7 @@ class Miner(val driver: WebDriver) {
       }
       for (time <- 0 until 20) {
         links(0).sendKeys(Keys.PAGE_DOWN)
-        Thread.sleep(100)
+        Thread.sleep(50)
       }
       friendsDialog.findElements(By.className("UIObjectListing_Title")).foreach(e => {result = e.getAttribute("href") :: result; println(e.getAttribute("href"))})
       println("Found " + result.length + " friends")
@@ -75,6 +75,6 @@ class Miner(val driver: WebDriver) {
       }
       else continue = false
     }
-    result.sorted
+    result
   }
 }

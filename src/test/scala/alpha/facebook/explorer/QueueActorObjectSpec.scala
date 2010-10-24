@@ -29,8 +29,12 @@ class QueueActorObjectSpec extends Spec with MustMatchers with BeforeAndAfterEac
   }
 
   describe("getFacebookNickName") {
-    it("must return the correct facebook nick name") {
+    it("must return the correct facebook nick name if no parameter is added") {
       QueueActor.getFacebookNickName("http://www.facebook.com/cold.alpha") must be("cold.alpha")
+    }
+
+     it("must return the correct facebook nick name if some parameters is added") {
+      QueueActor.getFacebookNickName("http://www.facebook.com/cold.alpha?ref=wow") must be("cold.alpha")
     }
   }
 
