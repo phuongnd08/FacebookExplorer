@@ -31,7 +31,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
     def saveProfile(profile: Profile) {
       savedProfiles = profile :: savedProfiles
     }
-    queueActor = new QueueActor(2, () => List[Profile](), saveProfile)
+    queueActor = new QueueActor(1, () => List[Profile](), saveProfile)
     queueActor.start
   }
 
@@ -64,7 +64,10 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
       actor.jobs.reverse must be(List(MiningJob("123456"), ResolvingNickNameJob("hotanhung"), MiningJob("234567")))
 
       //must generate proper profiles
-      savedProfiles.reverse must be(List(new Profile("123456", "First User", 0), new Profile("234567", "Second User", 0)))
+      savedProfiles.reverse must be(List(
+        new Profile("123456", null, "First User", 0),
+        new Profile(null, "hotanhung", "Hung Reo", 0),
+        new Profile("234567", null, "Second User", 0)))
     }
   }
 
@@ -98,7 +101,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
   }
 
   describe("act within a maxDepth limit") {
-    it("do not queue more job if depth is greater than 2 but still save profiles") {
+    it("do not queue more job if depth is greater than 1 but still save profiles") {
       queueActor ! ProfilesResult(null, List(("http://facebook.com/?id=100000", "Abc User")))
       object actor extends Actor {
         var miningJobs = List[MiningJob]()
@@ -118,7 +121,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
                 sender ! ProfilesResult(facebookId, profiles.reverse)
               }
               case ResolvingNickNameJob(nickName) => {
-                sender ! NicknameToFacebookIdResult(nickName, nickName.drop(1)+"5")
+                sender ! NicknameToFacebookIdResult(nickName, nickName.drop(1) + "5")
               }
               case _ =>
             }
@@ -130,17 +133,14 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
       Thread.sleep(100)
       actor ! StopSignal()
       actor.miningJobs.map(_.facebookId).reverse must be(
-        List("100000", "1000001", "1000002", "10000011", "10000012",
-          "10000021", "10000022", "1000005", "10000015", "10000025",
-          "10000051", "10000052", "10000055"))
-      savedProfiles.map(_.facebookId()).reverse must be(
-        List("100000", "1000001", "1000002", "10000011", "10000012", "10000021", "10000022",
-          "1000005", "100000111", "100000112", "100000121", "100000122", "10000015",
-          "100000211", "100000212", "100000221", "100000222", "10000025", "10000051",
-          "10000052", "100000115", "100000125", "100000151", "100000152", "100000215",
-          "100000225", "100000251", "100000252", "100000511", "100000512", "100000521",
-          "100000522", "10000055", "100000155", "100000255", "100000515", "100000525",
-          "100000551", "100000552", "100000555"))
+        List("100000", "1000001", "1000002", "1000005"))
+      savedProfiles.map(p=>p.facebookId()+"-"+p.nickName()).reverse must be(
+        List("100000-null", "1000001-null", "1000002-null", "1000005-s100000",
+          "100000-null", "10000011-null", "10000012-null", "null-s1000001",
+          "1000001-null", "10000021-null", "10000022-null", "null-s1000002",
+          "1000002-null", "1000005-s100000", "10000051-null", "10000052-null",
+          "null-s1000005", "1000005-s100000")
+        )
     }
   }
 

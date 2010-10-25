@@ -25,8 +25,9 @@ class Profile extends Record[Profile] {
     this.facebookId := facebookId
   }
 
-  def this(facebookId: String, displayName: String, depth: Int) = {
+  def this(facebookId: String, nickName:String, displayName: String, depth: Int) = {
     this (facebookId)
+    this.nickName := nickName
     this.displayName := displayName
     this.depth := depth
   }
