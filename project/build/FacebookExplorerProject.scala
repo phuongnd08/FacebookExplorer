@@ -1,6 +1,6 @@
 import sbt._
 
-class AutoPostProject(info: ProjectInfo) extends ProguardProject(info) with IdeaProject
+class FacebookExplorerProject(info: ProjectInfo) extends ProguardProject(info) with IdeaProject
 {
   val mavenLocal = "Local Maven Repository" at "file://" + Path.userHome + "/.m2/repository"
   var biblioMirror = "Biblio Mirror" at "http://mirrors.ibiblio.org/pub/mirrors/maven2/"
@@ -16,7 +16,7 @@ class AutoPostProject(info: ProjectInfo) extends ProguardProject(info) with Idea
   var mysqlConnector = "mysql" % "mysql-connector-java" % "5.1.13"
 
 
-  override def mainClass = Some("alpha.autoPost.Main")
+  override def mainClass = Some("alpha.facebook.explorer.Main")
 
   def keepMain(className: String) =
     """-keep public class %s {
