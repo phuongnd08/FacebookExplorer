@@ -27,7 +27,7 @@ class MinerGetFriendProfilesWithFirefoxSpec extends Spec with MustMatchers with 
       miner.login
       def shorten(url: String) = if (QueueActor.isFacebookIdForm(url)) QueueActor.getFacebookId(url) else QueueActor.getFacebookNickName(url)
       val list = List("phuongaxl", "piper.tram", "quyenbc.fab", "quynhlai", "seal91", "thaivancuong1987", "thanh.viet", "thucanhstrawberry",
-        "thy.nguyen2", "tomliz", "tqnam", "tranminhhuy19121987", "vamp.tran")
+        "thy.nguyen2", "tomliz", "tqnam", "tranminhhuy19121987")
 
       val profiles = miner.getFriendProfiles("581175558").map(shorten).toList
       list.foreach(name => profiles must contain(name))

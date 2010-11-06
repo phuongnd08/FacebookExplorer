@@ -13,7 +13,7 @@ import org.scalatest.Spec
 class EnvironmentSpec extends Spec with MustMatchers {
   describe("getJarPath") {
     it("must return current execution path") {
-      Environment.getJarPath must be === "/home/phuongnd08/code/facebook-explorer/target/scala_2.8.0/classes/"
+      Environment.getJarPath must endWith("/target/scala_2.8.0/classes/")
     }
   }
 }
