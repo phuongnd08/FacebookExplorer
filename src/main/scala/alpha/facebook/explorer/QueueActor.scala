@@ -63,7 +63,7 @@ class QueueActor(maxDepth: Int, loadSeenFacebookProfiles: () => List[Profile], s
 
   def act {
     while (true) {
-      receive {
+      receiveWithin(10) {
         case ProfilesResult(facebookId, profiles) => {
           val depth = if (facebookId == null) 0 else facebookIds(facebookId).depth.getValue + 1
           profiles.foreach(p => {
@@ -97,10 +97,11 @@ class QueueActor(maxDepth: Int, loadSeenFacebookProfiles: () => List[Profile], s
         }
 
         case StopSignal => {
+	  println("QueueActor: received StopSignal. Exiting...")
           exit()
         }
 
-        case _ =>
+        case _ => 
       }
     }
   }

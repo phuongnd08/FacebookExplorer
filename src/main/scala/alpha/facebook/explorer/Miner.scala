@@ -31,8 +31,8 @@ class Miner(val driver: WebDriver) {
     Miner.IdMatcher.findFirstMatchIn(href).get.group(1)
   }
 
-  def getFriendProfiles(facebookId: String): List[String] = {
-    var result = List[String]()
+  def getFriendProfiles(facebookId: String): List[(String, String)] = {
+    var result = List[(String, String)]()
     driver.get("http://www.facebook.com/profile.php?id=" + facebookId)
     //show all friends
     driver.findElement(By.xpath("//div[h5='Friends']")).findElement(By.linkText("See All")).click
@@ -66,7 +66,8 @@ class Miner(val driver: WebDriver) {
         links(0).sendKeys(Keys.PAGE_DOWN)
         Thread.sleep(50)
       }
-      friendsDialog.findElements(By.className("UIObjectListing_Title")).foreach(e => {result = e.getAttribute("href") :: result; println(e.getAttribute("href"))})
+      friendsDialog.findElements(By.className("UIObjectListing_Title")).foreach(
+	e => {result = (e.getAttribute("href"), e.getText) :: result; println(e.getAttribute("href"))})
       println("Found " + result.length + " friends")
       if (canGoNext) {
         println(getNextButton)

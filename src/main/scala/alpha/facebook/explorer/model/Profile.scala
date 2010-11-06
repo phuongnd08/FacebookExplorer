@@ -13,9 +13,9 @@ import ru.circumflex.orm._
 class Profile extends Record[Profile] {
   //val id = "id".BIGINT
   val nickName = "nick_name".VARCHAR(100).NULLABLE
-  val facebookId = "facebook_id".VARCHAR(20).UNIQUE
+  val facebookId = "facebook_id".VARCHAR(20).NULLABLE
   val displayName = "display_name".VARCHAR(256).NOT_NULL
-  val birthDay = "birth_day".DATE
+  val birthDay = "birth_day".DATE.NULLABLE
   val depth = "depth".INTEGER.DEFAULT("0").NOT_NULL
   val visited = "visited".BOOLEAN.DEFAULT("false").NOT_NULL
   //def PRIMARY_KEY = id

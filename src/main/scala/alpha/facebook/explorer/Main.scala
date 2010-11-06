@@ -1,7 +1,9 @@
 package alpha.facebook.explorer
 
 import model.Profile
-import ru.circumflex.orm.DDLUnit
+import ru.circumflex.orm._
+import actors.Actor
+import model._
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +14,8 @@ import ru.circumflex.orm.DDLUnit
  */
 
 object Main {
+  var actors = List[Actor]()
+
   def printHelp {
     println("Facebook Explorer Application")
     println("Written by phuongnd08")
@@ -64,11 +68,24 @@ object Main {
     }
   }
 
+  def loadProfiles() = {
+	val pr = Profile as "pr"
+      	(SELECT(pr.*) FROM pr).list().toList
+  }
+
+def saveProfile(p:Profile){p.save()}
+
   def mine(params: Array[String]) {
     if (params.length == 1) {
       try {
         val level = params(0).toInt
         println("Mining at level {" + level + "}")
+	val queueActor = new QueueActor(level, loadProfiles, saveProfile)
+	val minerActor = new MinerActor(new Miner(fe.getDriver), queueActor)	
+	actors = queueActor :: minerActor :: actors
+	queueActor.start
+	minerActor.start
+	queueActor ! ProfilesResult(null, List((fe("fe.startFromProfileUrl"), fe("fe.startFromDisplayName"))))
       }
       catch {
         case e: Exception => {
@@ -95,6 +112,11 @@ object Main {
         case "reset" => reset(args)
         case "mine" => mine(args)
         case "exit" => {
+	  println(actors)
+	  actors.foreach(a => {
+	    println("Sending StopSignal to "+a)
+	    a ! StopSignal()
+	  })
           return
         }
         case _ => println("What the hell are you trying to do?")

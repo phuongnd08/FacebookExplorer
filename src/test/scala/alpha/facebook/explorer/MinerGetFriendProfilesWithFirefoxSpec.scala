@@ -25,7 +25,7 @@ class MinerGetFriendProfilesWithFirefoxSpec extends Spec with MustMatchers with 
   describe("get friend profiles using firefox") {
     it("should report all friends profiles") {
       miner.login
-      def shorten(url: String) = if (QueueActor.isFacebookIdForm(url)) QueueActor.getFacebookId(url) else QueueActor.getFacebookNickName(url)
+      def shorten(profile: (String, String)) = if (QueueActor.isFacebookIdForm(profile._1)) QueueActor.getFacebookId(profile._1) else QueueActor.getFacebookNickName(profile._1)
       val list = List("phuongaxl", "piper.tram", "quyenbc.fab", "quynhlai", "seal91", "thaivancuong1987", "thanh.viet", "thucanhstrawberry",
         "thy.nguyen2", "tomliz", "tqnam", "tranminhhuy19121987")
 

@@ -130,7 +130,7 @@ class QueueActorClassSpec extends Spec with MustMatchers with BeforeAndAfterEach
       }
 
       actor.start
-      Thread.sleep(100)
+      Thread.sleep(150)
       actor ! StopSignal()
       actor.miningJobs.map(_.facebookId).reverse must be(
         List("100000", "1000001", "1000002", "1000005"))

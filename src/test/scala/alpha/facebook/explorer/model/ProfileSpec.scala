@@ -47,8 +47,22 @@ class ProfileSpec extends Spec with MustMatchers with BeforeAndAfterAll {
 
       println(list)
     }
+    
+    it("must honor unicode for display name"){
+      val p1 = new Profile
+      p1.displayName := "Nguyễn Đức Phương"
+      p1.save()
+      Profile.get(p1.id()).get.displayName() must be("Nguyễn Đức Phương")
+    }
+    
+    it("must create profile given valid attributes"){
+      val p1 = new Profile
+      p1.displayName := "First User"
+      p1.nickName := "first_user"
+      p1.save()
+    }
   }
-
+  
   describe("toString") {
     it("must produce helpful information") {
       val p2 = new Profile
